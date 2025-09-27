@@ -44,12 +44,12 @@ const int mqtt_port = 1883;
 #define DHT_TYPE DHT11  // Ganti ke DHT22 jika Anda menggunakan sensor tersebut
 
 // Sensor Gerak (PIR) untuk Menghitung Orang
-const int PIR_PIN1 = 33; // PIR sensor untuk pintu masuk
-const int PIR_PIN2 = 25; // PIR sensor untuk pintu keluar
+const int PIR_PIN1 = 25; // PIR sensor untuk pintu masuk
+const int PIR_PIN2 = 33; // PIR sensor untuk pintu keluar
 
 // Driver Motor DC untuk Kipas
-#define ENA 34 // PWM pin untuk kecepatan motor
-#define IN1 32 // Pin arah motor 1
+#define ENA 32 // PWM pin untuk kecepatan motor
+#define IN1 34 // Pin arah motor 1
 #define IN2 35 // Pin arah motor 2
 
 // Servo untuk Jendela
@@ -66,8 +66,8 @@ Servo servoWindow;
 
 // --- VARIABEL GLOBAL ---
 // Status Sistem
-bool isAutoMode = false;     // Mode awal adalah otomatis
-bool windowState = true;   // Status jendela (false = tertutup, true = terbuka)
+bool isAutoMode = true;     // Mode awal adalah otomatis
+bool windowState = false;   // Status jendela (false = tertutup, true = terbuka)
 int fanLevelManual = 0;     // Level kecepatan kipas manual (0-3)
 
 // Data Sensor
@@ -190,8 +190,10 @@ void updatePeopleCounter() {
       sensor1_triggered = true;
       counting_up_sequence = true;
       last_state_change = current_time;
+      Serial.println("s1");
     } else if (counting_up_sequence && sensor1_triggered && motion2 == HIGH && !sensor2_triggered) {
       sensor2_triggered = true;
+      Serial.println("s2");
       peopleCounter++;
       Serial.println(">>> Seseorang Masuk");
       resetSequence();
@@ -204,8 +206,10 @@ void updatePeopleCounter() {
       sensor2_triggered = true;
       counting_down_sequence = true;
       last_state_change = current_time;
+      Serial.println("s2");
     } else if (counting_down_sequence && sensor2_triggered && motion1 == HIGH && !sensor1_triggered) {
       sensor1_triggered = true;
+      Serial.println("s1");
       peopleCounter = std::max(0, peopleCounter - 1); // Cegah nilai negatif
       Serial.println(">>> Seseorang Keluar");
       resetSequence();
@@ -225,8 +229,8 @@ void setFanSpeed(int pwmValue) {
 void controlWindow(bool open) {
   windowState = open;
   servoWindow.write(open ? 180 : 0); // 180 derajat untuk buka, 0 untuk tutup
-  Serial.print("Jendela diatur ke: ");
-  Serial.println(open ? "Terbuka" : "Tertutup");
+  //Serial.print("Jendela diatur ke: ");
+  //Serial.println(open ? "Terbuka" : "Tertutup");
 }
 
 void controlLed() {
