@@ -9,7 +9,7 @@ smarthome ini menggunakan PIR untuk mendeteksi jumlah orang, bila ada orang yang
 
 ## Flowchart
 
-![ini Flowchart Smarthom IoT](./src/Flowchart.jpg "FlowChart Smarthom IoT")
+![ini Flowchart Smarthom IoT](./src/FlowChart.jpg "FlowChart Smarthom IoT")
 
 ## Instalisasi
 Pemograman dilakukan menggunakan Arduino Ide   
